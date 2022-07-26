@@ -27,11 +27,11 @@ export class Person
     def set_age(age)
         @age = age
     end
-    # Create a private method is_of_age? that returns true if age is greater or equal to 18 and false otherwise
+    # Create a private method named "is_of_age?" that returns true if age is greater or equal to 18 and false otherwise
     def is_of_age?
         @age >= 18
     end
-    # Create public method can_use_services? that returns true if person is of age or if they have permission from parents.
+    # Create public method named "can_use_services?" that returns true if person is of age or if they have permission from parents.
     def can_use_services?
         is_of_age? || @parent_permission
     end
