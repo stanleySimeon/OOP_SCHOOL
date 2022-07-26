@@ -1,38 +1,29 @@
 # Create a class person
-export class Person
-    def initialize(id, name, age)
-        @id = id
-        @name = name
-        @age = age
-    end
-    def initialize(name, age, parent_permission = true)
+class Person
+    def initialize(id, name = 'Unknow', age, parent_permission: true)
+        @id = Random.new.rand(1..100)
         @name = name
         @age = age
         @parent_permission = parent_permission
     end
-    # create a getters for @id, @name, and @age
-    def get_id
-        @id
-    end
-    def get_name
-        @name
-    end
-    def get_age
-        @age
-    end
-    # create a setters for @name, and @age
-    def set_name(name)
-        @name = name
-    end
-    def set_age(age)
-        @age = age
-    end
+
+    # create getters and setters for @id, @name, and @age
+    attr_accessor :name, :age
+    attr_reader :id
+
     # Create a private method named "is_of_age?" that returns true if age is greater or equal to 18 and false otherwise
+    private
     def is_of_age?
         @age >= 18
     end
+
     # Create public method named "can_use_services?" that returns true if person is of age or if they have permission from parents.
     def can_use_services?
         is_of_age? || @parent_permission
     end
 end
+
+person = Person.new()
+person.is_of_age?
+person.can_use_services?
+
