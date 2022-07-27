@@ -1,52 +1,52 @@
-AllCops:
-  NewCops: enable
-  Exclude:
-    - "Guardfile"
-    - "Rakefile"
-    - "node_modules/**/*"
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
 
-  DisplayCopNames: true
+# pulled from repo
+name: "Rubocop"
 
-Layout/LineLength:
-  Max: 120
-Metrics/MethodLength:
-  Max: 20
-Metrics/AbcSize:
-  Max: 50
-Metrics/ClassLength:
-  Max: 150
-Metrics/BlockLength:
-  IgnoredMethods: ['describe']
-  Max: 30
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "dev" ]
+  schedule:
+    - cron: '25 5 * * 5'
 
+jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
 
-Style/Documentation:
-  Enabled: false
-Style/ClassAndModuleChildren:
-  Enabled: false
-Style/EachForSimpleLoop:
-  Enabled: false
-Style/AndOr:
-  Enabled: false
-Style/DefWithParentheses:
-  Enabled: false
-Style/FrozenStringLiteralComment:
-  EnforcedStyle: never
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-Layout/HashAlignment:
-  EnforcedColonStyle: key
-Layout/ExtraSpacing:
-  AllowForAlignment: false
-Layout/MultilineMethodCallIndentation:
-  Enabled: true
-  EnforcedStyle: indented
-Lint/RaiseException:
-  Enabled: false
-Lint/StructNewOverride:
-  Enabled: false
-Style/HashEachMethods:
-  Enabled: false
-Style/HashTransformKeys:
-  Enabled: false
-Style/HashTransformValues:
-  Enabled: false
+    # If running on a self-hosted runner, check it meets the requirements
+    # listed at https://github.com/ruby/setup-ruby#using-self-hosted-runners
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@f20f1eae726df008313d2e0d78c5e602562a1bcf
+      with:
+        ruby-version: 2.6
+
+    # This step is not necessary if you add the gem to your Gemfile
+    - name: Install Code Scanning integration
+      run: bundle add code-scanning-rubocop --version 0.3.0 --skip-install
+
+    - name: Install dependencies
+      run: bundle install
+
+    - name: Rubocop run
+      run: |
+        bash -c "
+          bundle exec rubocop --require code_scanning --format CodeScanning::SarifFormatter -o rubocop.sarif
+          [[ $? -ne 2 ]]
+        "
+
+    - name: Upload Sarif output
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: rubocop.sarif
