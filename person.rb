@@ -1,5 +1,11 @@
+require_relative 'Nameable'
 # Create a class person
-class Person
+
+class Person < Nameable
+    def correct_name
+        @name
+    end
+
     def initialize(id, name = 'Unknow', age, parent_permission: true)
         @id = Random.new.rand(1..100)
         @name = name
@@ -27,3 +33,9 @@ person = Person.new()
 person.is_of_age?
 person.can_use_services?
 
+person = Person.new(22, 'maximilianus')
+  person.correct_name
+  capitalizedPerson = CapitalizeDecorator.new(person)
+  capitalizedPerson.correct_name
+  capitalizedTrimmedPerson = TrimmerDecorator.new(capitalizedPerson)
+  capitalizedTrimmedPerson.correct_name
