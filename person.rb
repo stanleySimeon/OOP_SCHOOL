@@ -6,28 +6,28 @@ class Person < Nameable
     @name
   end
 
-  def initialize(_id, name = 'Unknow', age, parent_permission: true)
-    @id = Random.new.rand(1..100)
-    @name = name
-    @age = age
-    @parent_permission = parent_permission
-  end
+  super initialize(_id, name = 'Unknow', age, parent_permission: true)
+  @id = Random.new.rand(1..100)
+  @name = name
+  @age = age
+  @parent_permission = parent_permission
+end
 
-  # create getters and setters for @id, @name, and @age
-  attr_accessor :name, :age
-  attr_reader :id
+# create getters and setters for @id, @name, and @age
+attr_accessor :name, :age
+attr_reader :id
 
   # Create a private method named "is_of_age?" that returns true if age is greater or equal to 18 and false otherwise
   private
 
-  def is_of_age?
-    @age >= 18
-  end
+def of_age?
+  @age >= 18
+end
 
-  # Create public method named "can_use_services?" that returns true if person is of age or if they have permission from parents.
-  def can_use_services?
-    is_of_age? || @parent_permission
-  end
+# Create public method named "can_use_services?"
+# that returns true if person is of age or if they have permission from parents.
+def can_use_services?
+  is_of_age? || @parent_permission
 end
 
 person = Person.new
@@ -36,7 +36,7 @@ person.can_use_services?
 
 person = Person.new(22, 'maximilianus')
 person.correct_name
-capitalizedPerson = CapitalizeDecorator.new(person)
-capitalizedPerson.correct_name
-capitalizedTrimmedPerson = TrimmerDecorator.new(capitalizedPerson)
-capitalizedTrimmedPerson.correct_name
+capitalized_person = CapitalizeDecorator.new(person)
+capitalized_person.correct_name
+capitalized_trimmed_person = TrimmerDecorator.new(capitalizedPerson)
+capitalized_trimmed_person.correct_name

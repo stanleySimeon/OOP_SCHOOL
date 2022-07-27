@@ -6,13 +6,11 @@ class Teacher < Person
     def initialize(name = 'Unknown', age, parent_permission: true, specialization)
         super(name, age, parent_permission)
         @specialization = specialization
-
         # add override named "can_use_services?" and set it to always returns true.
         def can_use_services?
             true
         end
     end
 end
-
 teacher = Teacher.new()
 teacher.can_use_services?
