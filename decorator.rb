@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative 'Nameable'
 # Create decorator class called Decorator that inherits from Nameable.
 class Decorator < Nameable
