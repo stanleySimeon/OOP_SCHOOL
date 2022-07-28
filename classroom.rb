@@ -1,4 +1,3 @@
-require_relative 'student'
 # Create a class called Classroom
 class Classroom
   attr_accessor :label
