@@ -1,18 +1,19 @@
-#Create a class teacher that inherits from person
-require_relative 'person'
+# Create a class teacher that inherits from person
+require './person'
 
 class Teacher < Person
-    # Create a Constructor extends the parent's constructor by adding @specialization and a parameter for it.
-    def initialize(name = 'Unknown', age, parent_permission: true, specialization)
-        super(name, age, parent_permission)
-        @specialization = specialization
+  # Create a Constructor extends the parent's constructor by adding @specialization and a parameter for it.
+  attr_accessor :parent_permission
 
-        # add override named "can_use_services?" and set it to always returns true.
-        def can_use_services?
-            true
-        end
-    end
+  def initialize(age, specialization, name = 'Unknown', parent_permission: true)
+    super(age, name, parent_permission)
+    @specialization = specialization
+  end
+
+  # add override named "can_use_services?" and set it to always returns true.
+  def can_use_services?
+    true
+  end
 end
-
-teacher = Teacher.new()
+teacher = Teacher.new
 teacher.can_use_services?
