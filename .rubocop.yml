@@ -3,8 +3,9 @@ AllCops:
   Exclude:
     - "Guardfile"
     - "Rakefile"
+    - vendor/**/*
+    - bin/**/*
     - "node_modules/**/*"
-
 
   DisplayCopNames: true
 
@@ -33,6 +34,11 @@ Style/DefWithParentheses:
   Enabled: false
 Style/FrozenStringLiteralComment:
   EnforcedStyle: never
+Style/OptionalBooleanParameter:
+  Enabled: false
+Style/OptionalArguments:
+  Enabled: false
+
 
 Layout/HashAlignment:
   EnforcedColonStyle: key
