@@ -7,8 +7,8 @@ AllCops:
     - bin/**/*
     - "node_modules/**/*"
 
-  DisplayCopNames: true
-
+DisplayCopNames: true
+TargetRubyVersion: 2.6
 Layout/LineLength:
   Max: 120
 Metrics/MethodLength:
