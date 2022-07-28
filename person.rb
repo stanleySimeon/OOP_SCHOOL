@@ -1,8 +1,6 @@
 require_relative 'nameable'
 require_relative 'decorator'
-
 # Create a class person
-
 class Person < Nameable
   def initialize(age, name = 'Unknown', parent_permission: true)
     super 0
@@ -11,13 +9,9 @@ class Person < Nameable
     @age = age
     @parent_permission = parent_permission
   end
-
-  # create getters and setters for @id, @name, and @age
   attr_accessor :name, :age
   attr_reader :id
 
-  # Create public method named "can_use_services?"
-  # that returns true if person is of age or if they have permission from parents.
   def can_use_services?
     of_age? || @parent_permission
   end
@@ -26,7 +20,6 @@ class Person < Nameable
     @name
   end
 
-  # Create a private method named "is_of_age?" that returns true if age is greater or equal to 18 and false otherwise
   private
 
   def of_age?
