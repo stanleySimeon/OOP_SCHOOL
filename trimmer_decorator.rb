@@ -1,4 +1,4 @@
-require_relative 'Decorator'
+require_relative 'decorator'
 
 # Create a class called TrimmerDecorator that inherits from Decorator.
 class TrimmerDecorator < Decorator

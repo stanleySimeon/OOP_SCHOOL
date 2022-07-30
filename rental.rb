@@ -1,13 +1,17 @@
-# Create a class Rental
+require 'date'
 
 class Rental
-  attr_accessor :date, :person, :book
+  attr_accessor :date, :book, :person
 
-  def initialize(date, person, book)
+  def initialize(book, person, date = DateTime.now)
     @date = date
-    @person = person
-    person.rental << self unless person.rental.include?(self)
     @book = book
-    book.rental << self unless book.rental.include?(self)
+    @person = person
+    book&.add_rental(self)
+    person&.add_rental(self)
+  end
+
+  def create_object
+    { book_title: @book.title, person_id: @person, date: @date }
   end
 end
