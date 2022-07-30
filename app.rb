@@ -6,7 +6,7 @@ require_relative 'students'
 require_relative 'teacher'
 require_relative 'rental'
 
-class App
+class App # rubocop:disable Metrics/ClassLength
   def initialize
     @books = []
     @people = []
@@ -62,12 +62,28 @@ class App
     puts "\n\n"
   end
 
+  # List all books
+  def list_books
+    show_books
+    print 'Press the enter key to continue: '
+    gets.chomp
+    menu_choice
+  end
+
   # Create a method that shows the list of people
   def show_people
     @people.each do |person, i|
       puts "\n#{i}_____[#{person.class.name}]_____\nId: #{person.id}\nName: #{person.name} \nAge: #{person.age}\n\n"
     end
-    "\n\n"
+    puts "\n\n"
+  end
+
+  # List all people
+  def list_people
+    show_people
+    print 'Press the enter key to continue: '
+    gets.chomp
+    menu_choice
   end
 
   # Create a method that adds a student
@@ -84,12 +100,13 @@ class App
     when 'n'
       false
     else
-      puts "\nWrong choice! Please try again.\n\n"
+      puts "\nWrong choice! Please try again.\n"
       menu_choice
       "\n\n"
     end
     @people << Student.new(age, name, parent_permission)
-    puts "\nStudent was successfully added!\n\n"
+    system('clear')
+    puts "\nStudent was successfully added!\n"
   end
 
   # Create a method that adds a teacher
@@ -101,12 +118,13 @@ class App
     print 'Enter the specialization of the teacher: '
     specialization = gets.chomp
     @people << Teacher.new(age, name, specialization)
-    puts "\nThe teacher was added successfully!\n\n"
+    system('clear')
+    puts "\nThe teacher was added successfully!\n"
   end
 
   # Create a method that select the type of person to add.
   def add_person
-    print "\nIf you want to add a teacher, press 1. If you want to add a student, press 2: "
+    print "\nIf you want to add a student, press 1. If you want to add a teacher, press 2: "
     choice = gets.chomp.to_i
     case choice
     when 1
@@ -114,9 +132,8 @@ class App
     when 2
       add_teacher
     else
-      puts "\nWrong choice!\n\n"
+      puts "\nWrong choice!\n"
     end
-    system('clear')
     menu_choice
   end
 
@@ -127,38 +144,43 @@ class App
     print 'Enter the author of the book: '
     author = gets.chomp
     @books << Book.new(title, author)
+    system('clear')
     print "\nThe book was added successfully!\n"
     menu_choice
   end
 
   # Create a method that adds a rental
   def add_rental
-    print "\nSelect a book from the following list by number: \n"
     show_books
+    print "\nSelect a book from the following list by id \n"
     print 'Book Id: '
     book_id = gets.chomp
-    print "\nSelect a person from the following list by number: \n"
     show_people
+    print "\nSelect a person from the following list by id \n"
     print 'Person Id: '
     person_id = gets.chomp
     print "\nEnter the rental date format (yyyy/mm/dd): "
     rental_date = gets.chomp
-    @rentals << Rental.new(@books[book_id.to_i], @people[person_id.to_i], rental_date)
+    @rental << Rental.new(@books[book_id.to_i], @people[person_id.to_i], rental_date)
+    system('clear')
     puts 'Rental added successfully'
+    menu_choice
   end
 
-  # show the list of rentals
-  def show_rentals
-    persons = nil
-    print "\nID of person: "
-    person_id = gets.chomp
-    @people.each do |x|
-      persons = x if x.id == person_id.to_i
+  #   show the list of rented by a specific person
+  def show_rentals()
+    puts show_people
+    print 'Enter the person ID: '
+    entry = gets.chomp.to_i
+    puts 'Rentals'.upcase
+    puts "----------------------------------------------------\n"
+    @people.each do |person|
+      next unless person.id == entry
+
+      @rental.each do |rental|
+        puts "Date: #{rental.date}, Book: '#{rental.book}' by #{rental.person}"
+      end
+      menu_choice
     end
-    persons.rental.each do |x|
-      puts x.date
-    end
-    puts "\n"
-    menu_choice
   end
 end
